@@ -6,3 +6,28 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"] # prevent conflicts with black
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+
+  - repo: local
+    hooks:
+      - id: run-tests
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false # run complete test suite
+        types: [python]
+      - id: mypy  # run using local mypy to avoid duplicate module conflicts
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
